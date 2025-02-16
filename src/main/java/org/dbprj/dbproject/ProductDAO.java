@@ -5,8 +5,21 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * Data Access Object (DAO) for managing products in the database.
+ * Provides methods for inserting, deleting, and retrieving products.
+ */
 public class ProductDAO {
 
+    /**
+     * Inserts a new product into the database.
+     *
+     * @param name The name of the product.
+     * @param price The price of the product.
+     * @param description A description of the product.
+     * @param inStock Indicates whether the product is in stock.
+     * @param categoryId The ID of the product's category.
+     */
     public static void insertProduct(String name, float price, String description, boolean inStock, int categoryId) {
         if (!categoryExists(categoryId)) {
             System.out.println("Chyba: Kategorie s ID " + categoryId + " neexistuje.");
@@ -29,6 +42,11 @@ public class ProductDAO {
         }
     }
 
+    /**
+     * Retrieves all products from the database and formats them into a string.
+     *
+     * @return A string representing all products in the database.
+     */
     public static String getAllProducts() {
         StringBuilder sb = new StringBuilder();
         String sql = "SELECT * FROM Products";
@@ -54,6 +72,12 @@ public class ProductDAO {
         return sb.toString();
     }
 
+    /**
+     * Deletes a product from the database by its ID.
+     *
+     * @param productId The ID of the product to delete.
+     * @return true if the product was successfully deleted, false otherwise.
+     */
     public static boolean deleteProductById(int productId) {
         String sql = "DELETE FROM Products WHERE product_id = ?";
         try (Connection connection = DatabaseConnection.getConnection();
@@ -62,7 +86,7 @@ public class ProductDAO {
             statement.setInt(1, productId);
             int rowsDeleted = statement.executeUpdate();
 
-            return rowsDeleted > 0; // Vrátí true, pokud se něco smazalo, jinak false
+            return rowsDeleted > 0; // Returns true if a row was deleted, otherwise false
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -70,8 +94,12 @@ public class ProductDAO {
         }
     }
 
-
-
+    /**
+     * Checks if a category exists in the database by its ID.
+     *
+     * @param categoryId The ID of the category to check.
+     * @return true if the category exists, false otherwise.
+     */
     public static boolean categoryExists(int categoryId) {
         String sql = "SELECT COUNT(*) FROM Categories WHERE category_id = ?";
         try (Connection connection = DatabaseConnection.getConnection();

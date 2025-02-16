@@ -7,6 +7,11 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
+/**
+ * The DatabaseConnection class is responsible for managing the database connection.
+ * It loads database connection properties from the `config.properties` file and
+ * provides a method to establish a connection to the database.
+ */
 public class DatabaseConnection {
 
     private static Properties config = new Properties();
@@ -16,7 +21,7 @@ public class DatabaseConnection {
             if (input == null) {
                 System.out.println("Sorry, unable to find config.properties");
             } else {
-                // Načítání souboru
+                // Load the configuration file
                 config.load(input);
             }
         } catch (IOException ex) {
@@ -24,6 +29,12 @@ public class DatabaseConnection {
         }
     }
 
+    /**
+     * Establishes a connection to the database using the properties from the
+     * `config.properties` file.
+     *
+     * @return A Connection object to the database, or null if the connection fails.
+     */
     public static Connection getConnection() {
         String url = config.getProperty("db.url");
         String username = config.getProperty("db.username");

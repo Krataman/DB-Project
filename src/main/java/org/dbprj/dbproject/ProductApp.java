@@ -13,8 +13,17 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Path;
 
+/**
+ * Main entry point of the ProductApp application.
+ * This class provides functionality to add, delete, view, and import products via a GUI.
+ */
 public class ProductApp extends Application {
 
+    /**
+     * Initializes the main stage and sets up the tabs for the application.
+     *
+     * @param stage The primary stage for this application.
+     */
     @Override
     public void start(Stage stage) {
         // Vytvoření tabů
@@ -37,7 +46,12 @@ public class ProductApp extends Application {
         stage.show();
     }
 
-    // Metoda pro vytvoření tabulky na přidání produktu
+    /**
+     * Creates the layout for the "Add Product" tab, including input fields and buttons.
+     *
+     * @param stage The primary stage for the application.
+     * @return VBox containing the layout for adding a product.
+     */
     private VBox createAddProductTab(Stage stage) {
         TextField nameField = new TextField();
         nameField.setPromptText("Zadejte název produktu");
@@ -60,7 +74,7 @@ public class ProductApp extends Application {
                 int categoryId = Integer.parseInt(categoryID.getText());
 
                 if (!ProductDAO.categoryExists(categoryId)) {
-                    showAlert(Alert.AlertType.ERROR, "Error!","Kategorie s ID " + categoryId + " neexistuje.");
+                    showAlert(Alert.AlertType.ERROR, "Error!", "Kategorie s ID " + categoryId + " neexistuje.");
                     return;
                 }
 
@@ -69,7 +83,6 @@ public class ProductApp extends Application {
                 showAlert(Alert.AlertType.ERROR, "Error!", "Zadejte platné číselné hodnoty pro cenu a ID kategorie.");
             }
         });
-
 
         Button importButton = new Button("Importovat produkty");
         importButton.setOnAction(e -> {
@@ -88,7 +101,11 @@ public class ProductApp extends Application {
         return layout;
     }
 
-    // Metoda pro vytvoření tabulky na mazání produktů
+    /**
+     * Creates the layout for the "Delete Product" tab, including input fields and buttons.
+     *
+     * @return VBox containing the layout for deleting a product.
+     */
     private VBox createDeleteProductTab() {
         TextField idField = new TextField();
         idField.setPromptText("Zadejte ID produktu ke smazání");
@@ -109,15 +126,17 @@ public class ProductApp extends Application {
             }
         });
 
-
-
         VBox layout = new VBox(10);
         layout.setPadding(new Insets(20));
         layout.getChildren().addAll(idField, deleteButton);
         return layout;
     }
 
-    // Metoda pro vytvoření tabulky na získání produktů
+    /**
+     * Creates the layout for the "Get Product" tab, including a button to display products.
+     *
+     * @return VBox containing the layout for viewing products.
+     */
     private VBox createGetProductTab() {
         Button getProductsButton = new Button("Zobrazit produkty");
         TextArea productList = new TextArea();
@@ -133,7 +152,11 @@ public class ProductApp extends Application {
         return layout;
     }
 
-    // Metoda pro import CSV
+    /**
+     * Imports product data from a CSV file into the database.
+     *
+     * @param filePath The path to the CSV file to import.
+     */
     private void importCSVProducts(Path filePath) {
         try (CSVReader csvReader = new CSVReader(new FileReader(filePath.toFile()))) {
             String[] row;
@@ -168,7 +191,13 @@ public class ProductApp extends Application {
         }
     }
 
-    // Metoda pro zobrazení chybových hlášek
+    /**
+     * Displays an alert to the user.
+     *
+     * @param type The type of the alert (ERROR, INFORMATION, etc.).
+     * @param title The title of the alert.
+     * @param message The message to display in the alert.
+     */
     private void showAlert(Alert.AlertType type, String title, String message) {
         Alert alert = new Alert(type);
         alert.setTitle(title);
@@ -176,7 +205,11 @@ public class ProductApp extends Application {
         alert.showAndWait();
     }
 
-
+    /**
+     * Main method to launch the JavaFX application.
+     *
+     * @param args Command line arguments.
+     */
     public static void main(String[] args) {
         launch(args);
     }
