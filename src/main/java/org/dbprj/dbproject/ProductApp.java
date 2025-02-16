@@ -31,13 +31,16 @@ public class ProductApp extends Application {
         TextField descriptionField = new TextField();
         descriptionField.setPromptText("Zadejte popis produktu");
 
+        TextField categoryID = new TextField();
+        categoryID.setPromptText("Zadejte ID produktu");
+
         Button addButton = new Button("Přidat produkt");
         addButton.setOnAction(e -> {
             String name = nameField.getText();
             float price = Float.parseFloat(priceField.getText());
             String description = descriptionField.getText();
             boolean inStock = true;  // Výchozí hodnota pro in_stock
-            int categoryId = 1;      // Výchozí hodnota pro category_id
+            int categoryId = Integer.parseInt(categoryID.getText());      // Výchozí hodnota pro category_id
 
             ProductDAO.insertProduct(name, price, description, inStock, categoryId);
         });
@@ -56,7 +59,7 @@ public class ProductApp extends Application {
 
         VBox layout = new VBox(10);
         layout.setPadding(new Insets(20));
-        layout.getChildren().addAll(nameField, priceField, descriptionField, addButton, importButton);
+        layout.getChildren().addAll(nameField, priceField, descriptionField, categoryID, addButton, importButton);
 
         Scene scene = new Scene(layout, 300, 250);
         stage.setScene(scene);
