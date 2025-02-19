@@ -9,7 +9,7 @@ import java.sql.SQLException;
  * Data Access Object (DAO) for managing products in the database.
  * Provides methods for inserting, deleting, and retrieving products.
  */
-public class ProductDAO {
+public class ProductManagement {
 
     /**
      * Inserts a new product into the database.
