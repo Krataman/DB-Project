@@ -20,27 +20,26 @@ public class ProductDAO {
      * @param inStock Indicates whether the product is in stock.
      * @param categoryId The ID of the product's category.
      */
-    public static void insertProduct(String name, float price, String description, boolean inStock, int categoryId) {
-        if (!categoryExists(categoryId)) {
-            System.out.println("Chyba: Kategorie s ID " + categoryId + " neexistuje.");
-            return;
-        }
-
-        String sql = "INSERT INTO Products (name, description, price, in_stock, category_id) VALUES (?, ?, ?, ?, ?)";
+    public static boolean insertProduct(String name, float price, String description, boolean inStock, int categoryId) {
+        String sql = "INSERT INTO Products (name, price, description, in_stock, category_id) VALUES (?, ?, ?, ?, ?)";
         try (Connection connection = DatabaseConnection.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
+
             statement.setString(1, name);
-            statement.setString(2, description);
-            statement.setFloat(3, price);
+            statement.setFloat(2, price);
+            statement.setString(3, description);
             statement.setBoolean(4, inStock);
             statement.setInt(5, categoryId);
-            statement.executeUpdate();
-            System.out.println("Produkt byl úspěšně přidán.");
+
+            int rowsInserted = statement.executeUpdate();
+            return rowsInserted > 0; // Vrátí true, pokud bylo něco vloženo
+
         } catch (SQLException e) {
             e.printStackTrace();
-            System.out.println("Chyba při vkládání produktu.");
+            return false;
         }
     }
+
 
     /**
      * Retrieves all products from the database and formats them into a string.

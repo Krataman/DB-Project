@@ -78,11 +78,18 @@ public class ProductApp extends Application {
                     return;
                 }
 
-                ProductDAO.insertProduct(name, price, description, true, categoryId);
+                boolean inserted = ProductDAO.insertProduct(name, price, description, true, categoryId);
+
+                if (inserted) {
+                    showAlert(Alert.AlertType.INFORMATION, "Úspěch", "Produkt byl úspěšně přidán.");
+                } else {
+                    showAlert(Alert.AlertType.ERROR, "Chyba", "Nepodařilo se přidat produkt.");
+                }
             } catch (NumberFormatException ex) {
-                showAlert(Alert.AlertType.ERROR, "Error!", "Zadejte platné číselné hodnoty pro cenu a ID kategorie.");
+                showAlert(Alert.AlertType.ERROR, "Chyba vstupu", "Zadejte platné číselné hodnoty pro cenu a ID kategorie.");
             }
         });
+
 
         Button importButton = new Button("Importovat produkty");
         importButton.setOnAction(e -> {
