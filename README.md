@@ -1,5 +1,8 @@
 # Produktová Aplikace
 
+# !VAROVÁNÍ!
+- Uživatel musí být java runtime pro JDK20
+
 ## Popis
 
 Tato aplikace umožňuje správu produktů v databázi. Poskytuje uživatelské rozhraní pro přidávání, mazání a zobrazení produktů. Kromě toho podporuje import produktů z CSV souboru a kontroluje, zda existují kategorie pro produkty, které se přidávají.
